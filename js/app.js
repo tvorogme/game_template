@@ -1,9 +1,16 @@
 import * as PIXI from 'pixi.js';
+import {World} from "./objects/world";
 
 // Загружаем стили. Импортируем, для того чтобы webpack сам с ними разоборался
 import '../styles/index.css'
 
+// Пиксель - не пиксель https://habr.com/post/229359/
 const ratio = window.devicePixelRatio;
+
+// Создаём наш мир
+const world = new World();
+
+// Берём размеры экрана
 const logicalWidth = window.innerWidth;
 const logicalHeight = window.innerHeight;
 
@@ -13,33 +20,51 @@ const renderer = PIXI.autoDetectRenderer(
     logicalHeight,
     {backgroundColor: 0x00000, resolution: 2});
 
-// http://pixijs.download/dev/docs/PIXI.Container.html
-const stage = new PIXI.Container();
-
-// http://pixijs.download/dev/docs/PIXI.Graphics.html
-const graphics = new PIXI.Graphics();
-graphics.beginFill(0xFFFFFF);
-graphics.drawCircle(170, 120, 10);
-graphics.endFill();
-
-stage.addChild(graphics);
-
-
-// start animating
-animate();
+// Нажата ли кнопка
+const keys = {"w": false, "s": false, "a": false, "d": false};
 
 function animate() {
+    // Позволяет рисовать каждый тик
     requestAnimationFrame(animate);
 
+    // http://pixijs.download/dev/docs/PIXI.Container.html
+    const stage = new PIXI.Container();
+
+    // Храним все элементы миры
+    // TODO: Сделать класс мира с методом - достать все объекты
+
+    world.get_items().forEach((item) => {
+        // Достаём отрисованный объект
+        const graphics = item.draw();
+
+        // Добавляем его в Container
+        stage.addChild(graphics)
+    });
+
+    // Отрисовываем в этом тике всё
     renderer.render(stage);
+
+    // Смотрим на нажатые кнопки
+    world.move(keys);
 }
+
+document.addEventListener('keydown', (ev) => {
+    keys[ev.key] = true;
+}, false);
+
+document.addEventListener('keyup', (ev) => {
+    keys[ev.key] = false;
+}, false);
+
+// Начинаем рисовать!
+animate();
 
 // Wait for document loaded
 window.onload = function () {
-    // Add PIXI to page
+    // Достаём <div id="main"/> и суём туда canvas из renderer
+    // View Page Source если не веришь
     document.getElementById("main").appendChild(renderer.view);
-
-    // High res displ.
+    // Устанавливаем нужные параметры высоты и ширины для канваса
     const canvas = renderer.view;
     canvas.width = logicalWidth * 2;
     canvas.height = logicalHeight * 2;

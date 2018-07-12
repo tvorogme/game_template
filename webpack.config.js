@@ -1,12 +1,25 @@
+'use strict';
+
 const path = require("path");
+const webpack = require('webpack');
+
 
 module.exports = {
+    mode: 'development',
+
     entry: "./js/app.js",
+
+    optimization: {
+        minimize: false
+    },
+
+
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "bundle.js",
         publicPath: "/dist"
     },
+
     module: {
         rules: [
             {
@@ -16,6 +29,16 @@ module.exports = {
                     options: {presets: ["es2015", "stage-0"]}
                 }
             },
+            {
+                test: /\.json$/,
+                include: path.join(__dirname, 'node_modules', 'pixi.js'),
+                loader: 'json',
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+
         ]
     }
 };

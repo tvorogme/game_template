@@ -1,4 +1,5 @@
 import {Player} from "./player";
+import {Info} from "./info"
 
 
 export class World {
@@ -34,7 +35,7 @@ export class World {
     };
 
     get_items() {
-        return [this.player]
+        return [this.player, new Info(this.player.x, this.player.y)]
     }
 
 }

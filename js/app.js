@@ -30,9 +30,6 @@ function animate() {
     // http://pixijs.download/dev/docs/PIXI.Container.html
     const stage = new PIXI.Container();
 
-    // Храним все элементы миры
-    // TODO: Сделать класс мира с методом - достать все объекты
-
     world.get_items().forEach((item) => {
         // Достаём отрисованный объект
         const graphics = item.draw();

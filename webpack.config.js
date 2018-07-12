@@ -26,7 +26,10 @@ module.exports = {
                 test: /\.js$/,
                 use: {
                     loader: "babel-loader",
-                    options: {presets: ["es2015", "stage-0"]}
+                    options: {
+                        "presets": ["env", "es2015", "stage-0", "stage-1", "stage-2"],
+                        "plugins": ["transform-es2015-destructuring", "transform-object-rest-spread"]
+                    }
                 }
             },
             {

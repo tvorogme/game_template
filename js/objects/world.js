@@ -6,7 +6,11 @@ export class World {
     constructor() {
         // Создадим игрока
         this.player = new Player(0, 0)
+
+        // ToDo: Создать массив лазеров
     }
+
+    // ToDo: Метод click, которая принимает x, y
 
     // В зависисмости от нажатых клавиш изменяем среду
     move = (keys) => {
@@ -35,6 +39,7 @@ export class World {
     };
 
     get_items() {
+        // ToDo: Возвращать массив лазеров
         return [this.player, new Info(this.player.x, this.player.y)]
     }
 

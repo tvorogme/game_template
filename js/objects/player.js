@@ -20,18 +20,18 @@ export class Player {
     }
 
     go_left = () => {
-        this.x -= 1
+        this.x -= 10
     };
 
     go_right = () => {
-        this.x += 1
+        this.x += 10
     };
 
     go_up = () => {
-        this.y -= 1
+        this.y -= 10
     };
 
     go_down = () => {
-        this.y += 1
+        this.y += 10
     }
 }

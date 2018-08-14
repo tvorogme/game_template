@@ -4,20 +4,13 @@ import {World} from "./objects/world";
 // Загружаем стили. Импортируем, для того чтобы webpack сам с ними разоборался
 import '../styles/index.css'
 
-// Пиксель - не пиксель https://habr.com/post/229359/
-const ratio = window.devicePixelRatio;
-
 // Создаём наш мир
 const world = new World();
 
-// Берём размеры экрана
-const logicalWidth = window.innerWidth;
-const logicalHeight = window.innerHeight;
-
 // http://pixijs.download/dev/docs/PIXI.Application.html
 const renderer = PIXI.autoDetectRenderer(
-    logicalWidth,
-    logicalHeight,
+    window.innerWidth,
+    window.innerHeight,
     {backgroundColor: 0x00000, resolution: 2});
 
 // Нажата ли кнопка
@@ -53,18 +46,36 @@ document.addEventListener('keyup', (ev) => {
     keys[ev.key] = false;
 }, false);
 
+document.addEventListener('click', (ev) => {
+    // ToDo: Вызывать метод click у World
+    console.log(ev);
+}, false);
+
+
+function setCanvasSize() {
+    // Устанавливаем нужные параметры высоты и ширины для канваса
+    const canvas = renderer.view;
+    canvas.width = window.innerWidth * 2;
+    canvas.height = window.innerHeight * 2;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    renderer.resize(window.innerWidth, window.innerHeight);
+    world.player.x = window.innerWidth / 2;
+    world.player.y = window.innerHeight / 2;
+}
+
+window.onresize = (ev) => {
+    setCanvasSize();
+};
+
+
 // Начинаем рисовать!
 animate();
 
 // Wait for document loaded
-window.onload = function () {
+window.onload = () => {
     // Достаём <div id="main"/> и суём туда canvas из renderer
     // View Page Source если не веришь
     document.getElementById("main").appendChild(renderer.view);
-    // Устанавливаем нужные параметры высоты и ширины для канваса
-    const canvas = renderer.view;
-    canvas.width = logicalWidth * 2;
-    canvas.height = logicalHeight * 2;
-    canvas.style.width = logicalWidth + 'px';
-    canvas.style.height = logicalHeight + 'px';
+    setCanvasSize();
 };

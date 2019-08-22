@@ -48,7 +48,7 @@ document.addEventListener('keyup', (ev) => {
 
 document.addEventListener('click', (ev) => {
     // ToDo: Вызывать метод click у World
-    console.log(ev);
+    world.click(ev.x, ev.y);
 }, false);
 
 
@@ -60,6 +60,7 @@ function setCanvasSize() {
     canvas.style.width = window.innerWidth + 'px';
     canvas.style.height = window.innerHeight + 'px';
     renderer.resize(window.innerWidth, window.innerHeight);
+
     world.player.x = window.innerWidth / 2;
     world.player.y = window.innerHeight / 2;
 }
